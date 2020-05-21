@@ -23,7 +23,7 @@ namespace BasiliskBattle
                 // Heroes' turn.
                 foreach (string hero in heroes)
                 {
-                    var daggerHit = random.Next(1, 4);
+                    var daggerHit = random.Next(1, 5);
                     basiliskHP -= daggerHit;
                     if (basiliskHP < 0) basiliskHP = 0;
 
