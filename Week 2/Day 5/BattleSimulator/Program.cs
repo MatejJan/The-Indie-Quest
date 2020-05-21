@@ -12,9 +12,9 @@ namespace BattleSimulator
             Console.Clear();
             Console.WriteLine($"A party of warriors ({String.Join(", ", heroes)}) descends into the dungeon.");
 
-            SimulateBattle(heroes, "orc", 15, 12);
-            if (heroes.Count > 0) SimulateBattle(heroes, "mage", 40, 20);
-            if (heroes.Count > 0) SimulateBattle(heroes, "troll", 84, 18);
+            SimulateBattle(heroes, "orc", DiceRoll(2, 8, 6), 12);
+            if (heroes.Count > 0) SimulateBattle(heroes, "mage", DiceRoll(9, 8), 20);
+            if (heroes.Count > 0) SimulateBattle(heroes, "troll", DiceRoll(8, 10, 40), 18);
 
             if (heroes.Count > 1)
             {
@@ -26,9 +26,22 @@ namespace BattleSimulator
             }
         }
 
+        static int DiceRoll(int numberOfRolls, int diceSides, int fixedBonus = 0)
+        {
+            var random = new Random();
+
+            int result = fixedBonus;
+
+            for (var i = 0; i < numberOfRolls; i++)
+            {
+                result += random.Next(1, diceSides + 1);
+            }
+
+            return result;
+        }
+
         static void SimulateBattle(List<string> heroes, string monster, int monsterHP, int savingThrowDC)
         {
-
             var random = new Random();
 
             Console.WriteLine($"Watch out, {monster} with {monsterHP} HP appears!");
@@ -38,7 +51,7 @@ namespace BattleSimulator
                 // Heroes' turn.
                 foreach (string hero in heroes)
                 {
-                    var greatswordHit = random.Next(1, 7) + random.Next(1, 7);
+                    var greatswordHit = DiceRoll(2, 6);
                     monsterHP -= greatswordHit;
                     if (monsterHP < 0) monsterHP = 0;
 
@@ -55,7 +68,7 @@ namespace BattleSimulator
                     Console.WriteLine($"The {monster} attacks {attackedHero}!");
 
                     // Do the saving throw.
-                    int d20roll = random.Next(1, 21);
+                    int d20roll = DiceRoll(1, 20);
                     int savingThrow = 5 + d20roll;
 
                     if (savingThrow >= savingThrowDC)
