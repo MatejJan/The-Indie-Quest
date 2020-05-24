@@ -10,7 +10,7 @@ namespace AdventureMap
             while (true)
             {
                 Console.Clear();
-                DrawMap(60, 20);
+                DrawMap(20, 10);
 
                 var keyInfo = Console.ReadKey();
                 if (keyInfo.Key == ConsoleKey.Escape) break;
@@ -22,7 +22,6 @@ namespace AdventureMap
             // Prepare helper variable.
             int leftQuarterEnd = width / 4;
             int rightQuarterStart = width * 3 / 4;
-            int bottomQuarterStart = height * 3 / 4;
             var random = new Random();
 
             // Generate river in the right quarter of the map.
@@ -57,18 +56,7 @@ namespace AdventureMap
                 }
             }
 
-            // Decide where the village center will be.
-            int villageCenterX = random.Next(leftQuarterEnd, width / 2);
-            int villageCenterY = roadY[villageCenterX] / 2;
-
-            // Find extends of the field. First find where the bottom of the middle road is.
-            int maxMiddleRoadY = 0;
-            foreach (int y in roadY)
-            {
-                if (y > maxMiddleRoadY) maxMiddleRoadY = y;
-            }
-
-            // Now find where the road intersection is.
+            // Find where the road intersection is.
             int roadIntersectionX = 0;
             for (int x = 0; x < width; x++)
             {
@@ -89,13 +77,6 @@ namespace AdventureMap
                 int riverRoadX = riverStart[y] - 5;
                 if (riverRoadX < minRiverRoadX) minRiverRoadX = riverRoadX;
             }
-
-            // Place field 1 away from the main roads.
-            int fieldStartY = maxMiddleRoadY + 1;
-            int fieldEndX = minRiverRoadX - 1;
-
-            // Place the field road on the bottom 3/4.
-            int fieldRoadY = bottomQuarterStart;
 
             // Find where the title is positioned.
             var title = "ADVENTURE MAP";
