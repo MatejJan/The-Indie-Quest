@@ -10,7 +10,7 @@ namespace AdventureMap
             while (true)
             {
                 Console.Clear();
-                DrawMap(20, 10);
+                DrawMap(60, 20);
 
                 var keyInfo = Console.ReadKey();
                 if (keyInfo.Key == ConsoleKey.Escape) break;
@@ -27,7 +27,7 @@ namespace AdventureMap
             // Generate river in the right quarter of the map.
             var riverStart = new List<int>();
 
-            int currentRiverStart = width * 3 / 4;
+            int currentRiverStart = rightQuarterStart;
 
             for (int y = 0; y < height; y++)
             {
@@ -69,14 +69,6 @@ namespace AdventureMap
             }
 
             int roadIntersectionY = roadY[roadIntersectionX];
-
-            // Finally find where the left-most piece of the river road is.
-            int minRiverRoadX = width;
-            for (int y = roadIntersectionY; y < height; y++)
-            {
-                int riverRoadX = riverStart[y] - 5;
-                if (riverRoadX < minRiverRoadX) minRiverRoadX = riverRoadX;
-            }
 
             // Find where the title is positioned.
             var title = "ADVENTURE MAP";
