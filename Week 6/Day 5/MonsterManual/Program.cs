@@ -158,7 +158,7 @@ namespace MonsterManual
 
             for (int i = 1; i < lines.Length; i++)
             {
-                string[] parts = lines[i].Split(", ");
+                string[] parts = lines[i].Split(",");
 
                 var armorType = (ArmorType)Enum.Parse(typeof(ArmorType), parts[0]);
 
@@ -322,7 +322,7 @@ namespace MonsterManual
 
                     Console.WriteLine($"Armor type: {armorTypeEntry.Name}");
                     Console.WriteLine($"Armor category: {armorTypeEntry.Category}");
-                    Console.WriteLine($"Armor weight: {armorTypeEntry.Weight}");
+                    Console.WriteLine($"Armor weight: {armorTypeEntry.Weight} lb.");
                 }
                 else
                 {

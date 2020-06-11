@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="ArmorTypes.txt" />
+    <Content Remove="ArmorTypes.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="ArmorTypes.txt">
