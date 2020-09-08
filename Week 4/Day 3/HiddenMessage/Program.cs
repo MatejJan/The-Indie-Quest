@@ -6,7 +6,7 @@ namespace HiddenMessage
     {
         static void Main(string[] args)
         {
-            var message = "Want to meet after work? I'll leave the address in the south maintenance closet. Bring an ASCII chart, message will be coded.";
+            var message = "Want to meet for lunch? I'll leave the restaurant address in the south maintenance closet. Bring an ASCII chart, the message will be coded.";
 
             for (int i = 0; i < message.Length; i++)
             {
@@ -15,7 +15,8 @@ namespace HiddenMessage
                 if (i % 10 == 9) Console.WriteLine();
             }
 
-            int[] numbers = {87, 97, 110, 116, 32, 116, 111, 32, 109, 101,
+            int[] numbers = {
+                87, 97, 110, 116, 32, 116, 111, 32, 109, 101,
                 101, 116, 32, 97, 102, 116, 101, 114, 32, 119,
                 111, 114, 107, 63, 32, 73, 39, 108, 108, 32,
                 108, 101, 97, 118, 101, 32, 116, 104, 101, 32,
