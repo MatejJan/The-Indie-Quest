@@ -7,23 +7,25 @@ namespace MonsterManual
 {
     class Program
     {
-        class MonsterEntry
-        {
-            public string Name;
-            public string Description;
-            public string Alignment;
-            public string HitPoints;
-        }
-
         static void Main(string[] args)
         {
             string[] lines = File.ReadAllLines("MonsterManual.txt");
 
-            var monsterEntries = new List<MonsterEntry>();
+            var axis1Values = new[] { "lawful", "neutral", "chaotic" };
+            var axis2Values = new[] { "good", "neutral", "evil" };
+
+            var namesByAlignment = new List<string>[3, 3];
+            var namesOfUnaligned = new List<string>();
+            var namesOfAnyAlignment = new List<string>();
+            var namesOfSpecialCases = new List<string>();
+            var specialCases = new List<string>();
+
+            for (int axis1 = 0; axis1 < 3; axis1++)
+                for (int axis2 = 0; axis2 < 3; axis2++)
+                    namesByAlignment[axis1, axis2] = new List<string>();
 
             int monsterBlockLineIndex = 0;
-
-            var currentMonsterEntry = new MonsterEntry();
+            string currentName = "";
 
             foreach (string line in lines)
             {
@@ -32,110 +34,86 @@ namespace MonsterManual
                 // Parse the name.
                 if (monsterBlockLineIndex == 1)
                 {
-                    currentMonsterEntry.Name = line;
+                    currentName = line;
                 }
 
+                // Parse the alignment line.
                 if (monsterBlockLineIndex == 2)
                 {
-                    string[] parts = line.Split(", ");
-
-                    currentMonsterEntry.Description = parts[0];
-                    currentMonsterEntry.Alignment = parts[1];
-                }
-
-                if (monsterBlockLineIndex == 3)
-                {
-                    Match match = Regex.Match(line, @"\((.*)\)");
+                    Match match = Regex.Match(line, @"(lawful|neutral|chaotic) (good|neutral|evil)");
 
                     if (match.Success)
                     {
-                        currentMonsterEntry.HitPoints = match.Groups[1].Value;
+                        int axis1 = Array.IndexOf(axis1Values, match.Groups[1].Value);
+                        int axis2 = Array.IndexOf(axis2Values, match.Groups[2].Value);
+
+                        namesByAlignment[axis1, axis2].Add(currentName);
+                        continue;
                     }
+
+                    if (line.Contains("neutral"))
+                    {
+                        namesByAlignment[1, 1].Add(currentName);
+                        continue;
+                    }
+
+                    if (line.Contains("unaligned"))
+                    {
+                        namesOfUnaligned.Add(currentName);
+                        continue;
+                    }
+
+                    if (line.Contains("any alignment"))
+                    {
+                        namesOfAnyAlignment.Add(currentName);
+                        continue;
+                    }
+
+                    namesOfSpecialCases.Add(currentName);
+
+                    string[] parts = line.Split(", ");
+                    specialCases.Add(parts[1]);
+
+                    continue;
                 }
 
                 if (line.Length == 0)
                 {
-                    monsterEntries.Add(currentMonsterEntry);
-
                     monsterBlockLineIndex = 0;
-                    currentMonsterEntry = new MonsterEntry();
                 }
             }
 
-            Console.WriteLine("MONSTER MANUAL");
-            Console.WriteLine();
-            Console.WriteLine("Enter a query to search monsters by name:");
-
-            var results = new List<MonsterEntry>();
-
-            do
+            for (int axis2 = 0; axis2 < 3; axis2++)
             {
-                string lowercaseQuery = Console.ReadLine().ToLowerInvariant();
-                Console.WriteLine();
-
-                results.Clear();
-
-                foreach (MonsterEntry monsterEntry in monsterEntries)
+                for (int axis1 = 0; axis1 < 3; axis1++)
                 {
-                    string lowercaseMonsterName = monsterEntry.Name.ToLowerInvariant();
-
-                    if (lowercaseMonsterName.Contains(lowercaseQuery))
+                    if (axis1 == 1 && axis2 == 1)
                     {
-                        results.Add(monsterEntry);
+                        Console.WriteLine($"Monsters with alignment true neutral are:");
                     }
-                }
+                    else
+                    {
+                        Console.WriteLine($"Monsters with alignment {axis1Values[axis1]} {axis2Values[axis2]} are:");
+                    }
 
-                if (results.Count == 0)
-                {
-                    Console.WriteLine("No monsters were found. Try again:");
-                }
-
-            } while (results.Count == 0);
-
-            MonsterEntry selectedMonsterEntry;
-
-            if (results.Count == 1)
-            {
-                selectedMonsterEntry = results[0];
-            }
-            else
-            {
-                Console.WriteLine("Which monster did you want to look up?");
-
-                for (int i = 0; i < results.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1,3}: {results[i].Name}");
-                }
-
-                Console.WriteLine();
-                Console.WriteLine("Enter number:");
-
-                int selectedIndex = -1;
-
-                do
-                {
-                    string selectionText = Console.ReadLine();
+                    foreach (string name in namesByAlignment[axis1, axis2]) Console.WriteLine(name);
                     Console.WriteLine();
-
-                    selectedIndex = int.Parse(selectionText) - 1;
-
-                    if (selectedIndex < 0 || selectedIndex >= results.Count)
-                    {
-                        Console.WriteLine("No moster has that number. Try again:");
-                        selectedIndex = -1;
-                    }
-
-                } while (selectedIndex < 0);
-
-                selectedMonsterEntry = results[selectedIndex];
+                }
             }
 
-            Console.WriteLine($"Displaying information for {selectedMonsterEntry.Name}.");
+            Console.WriteLine($"Unaligned monsters are:");
+            foreach (string name in namesOfUnaligned) Console.WriteLine(name);
             Console.WriteLine();
-            Console.WriteLine($"Name: {selectedMonsterEntry.Name}");
-            Console.WriteLine($"Description: {selectedMonsterEntry.Description}");
-            Console.WriteLine($"Alignment: {selectedMonsterEntry.Alignment}");
-            Console.WriteLine($"Hit points: {selectedMonsterEntry.HitPoints}");
+
+            Console.WriteLine($"Monsters which can be of any alignment are:");
+            foreach (string name in namesOfAnyAlignment) Console.WriteLine(name);
+            Console.WriteLine();
+
+            Console.WriteLine($"Monsters with special cases are:");
+            for (int i = 0; i < namesOfSpecialCases.Count; i++)
+            {
+                Console.WriteLine($"{namesOfSpecialCases[i]} ({specialCases[i]})");
+            }
         }
     }
 }
