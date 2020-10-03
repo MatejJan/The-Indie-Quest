@@ -8,6 +8,7 @@ namespace InsertionSort
     {
         static void Main(string[] args)
         {
+            // Data that crashes the program: empty list, the smallest number is not first.
             var data = new List<int>() { 1, 14, 7, 3, 12, 10, 15, 4, 2, 9, 11, 5, 8, 6, 13 };
 
             // Insertion sort
@@ -27,6 +28,7 @@ namespace InsertionSort
                 // Test the sorted number to the left of it and see if it is bigger.
                 int testIndex = indexOfFirstUnsortedNumber - 1;
 
+                // To fix the program, insert: testIndex >= 0 &&
                 while (data[testIndex] > firstUnsortedNumber)
                 {
                     // The sorted number is bigger!
