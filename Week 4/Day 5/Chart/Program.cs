@@ -20,7 +20,8 @@ namespace Chart
 
         static void DisplayData(List<int> data)
         {
-            Console.Clear();
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(0, 0);
 
             for (int y = 20; y >= 0; y--)
             {
@@ -47,7 +48,7 @@ namespace Chart
                 Console.WriteLine();
             }
 
-            Thread.Sleep(10);
+            Thread.Sleep(100);
         }
     }
 }

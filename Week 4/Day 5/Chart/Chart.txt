@@ -19,7 +19,8 @@ namespace Chart
 
         static void DisplayData(List<int> data)
         {
-            Console.Clr()
+            Console.CursorVisible = false;
+            Console.SetCursorPosition 0, 0;
 
             for (y = 20; y >= 0; y--)
             {
