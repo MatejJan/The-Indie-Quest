@@ -34,7 +34,7 @@ namespace BowlingGame
             // Keep doing rolls until we've done all 10 frames.
             while (currentFrame <= 10)
             {
-                // Reset pins if needed.
+                // Reset pins when needed.
                 ResetPins();
 
                 // Output which frame we're currently at.
@@ -179,6 +179,9 @@ namespace BowlingGame
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Resets the standing pins when needed.
+        /// </summary>
         static void ResetPins()
         {
             // Determine if we have to reset the pins.
