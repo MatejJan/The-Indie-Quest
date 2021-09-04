@@ -41,7 +41,7 @@ namespace MonsterManual
                 {
                     canFly.Add(line.Contains("fly"));
 
-                    if (Regex.IsMatch(line, @"fly [1-4]"))
+                    if (Regex.IsMatch(line, @"fly [1-4]\d "))
                     {
                         namesOfSlowFlyers.Add(currentName);
                     }
