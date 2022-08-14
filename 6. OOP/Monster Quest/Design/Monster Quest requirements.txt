@@ -1,0 +1,34 @@
+MONSTER QUEST
+Requirements
+
+Fight battles:
+- Automatic battle simulation between a party of characters and monsters.
+- Ability to flee a battle.
+- Defeated monsters drop possessions.
+
+Navigate dungeons:
+- Procedurally-generated dungeons on a square grid.
+- Walkable tiles with walls on the sides.
+- Entrance tile (stairs).
+  - Defines party's starting position.
+  - Can be accessed to exit dungeon.
+- Gradual exploration and fog of war.
+  - Undiscovered tiles are not drawn.
+  - Discovered but not visible tiles are grayed out.
+  - Monsters only appear on visible tiles.
+- Movement via pathfinding.
+  - Player clicks a tile and the party finds the shortest path to move there.
+- Containers with loot.
+
+Travel the world:
+- Move between dungeons and other locations.
+- Locations are connected with roads with defined distances.
+- Automatic layout generation.
+  - Locations can specify approximate cardinal direction on the map.
+- Enter dungeons.
+  - Description and icon for a dungeon.
+  - Developer specifies monsters in the dungeon.
+
+Visit towns:
+- Town locations that offer different actions.
+- 
