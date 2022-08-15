@@ -3,7 +3,7 @@ Requirements
 
 Fight battles:
 - Automatic battle simulation between a party of characters and monsters.
-- Units have health points.
+- Creatures have hit points.
 - Attack action with a given weapon/skill, decreases HP.
 - Ability for the party to flee a battle.
 - Defeated monsters drop possessions.
