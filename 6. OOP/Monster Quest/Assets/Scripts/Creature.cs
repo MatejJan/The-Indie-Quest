@@ -10,6 +10,9 @@ namespace MonsterQuest
         public string name;
         public string attackDamage;
 
+        public string definiteName => EnglishHelpers.GetDefiniteNounForm(name);
+        public string indefiniteName => EnglishHelpers.GetIndefiniteNounForm(name);
+
         public void Attack(Creature target)
         {
             int damage = Dice.Roll(attackDamage);
@@ -21,7 +24,7 @@ namespace MonsterQuest
             hitPoints -= damage;
             if (hitPoints < 0) hitPoints = 0;
 
-            Console.WriteLine($"{attacker.name} hits {name} for {damage} damage. {name} has {hitPoints} HP left.");
+            Console.WriteLine($"{attacker.definiteName.ToUpperFirst()} hits {definiteName} for {damage} damage. {definiteName.ToUpperFirst()} has {hitPoints} HP left.");
         }
     }
 }

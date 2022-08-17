@@ -6,9 +6,9 @@ namespace MonsterQuest
 {
     public class Battle
     {
-        public void Simulate(List<Creature> heroes, Creature monster)
+        public void Simulate(Party heroes, Creature monster)
         {
-            Console.WriteLine($"Watch out, {monster.name} with {monster.hitPoints} HP appears!");
+            Console.WriteLine($"Watch out, {monster.indefiniteName} with {monster.hitPoints} HP appears!");
 
             do
             {
@@ -16,7 +16,7 @@ namespace MonsterQuest
                 foreach (Creature hero in heroes)
                 {
                     hero.Attack(monster);
-                    
+
                     if (monster.hitPoints == 0) break;
                 }
 
@@ -25,7 +25,7 @@ namespace MonsterQuest
                     // Monster's turn.
                     int randomHeroIndex = Random.Range(0, heroes.Count);
                     Creature attackedHero = heroes[randomHeroIndex];
-                    Console.WriteLine($"The {monster.name} attacks {attackedHero.name}!");
+                    Console.WriteLine($"{monster.definiteName.ToUpperFirst()} attacks {attackedHero.definiteName}!");
                     monster.Attack(attackedHero);
 
                     if (attackedHero.hitPoints == 0)
@@ -33,16 +33,15 @@ namespace MonsterQuest
                         heroes.Remove(attackedHero);
                     }
                 }
-
             } while (monster.hitPoints > 0 && heroes.Count > 0);
 
             if (monster.hitPoints == 0)
             {
-                Console.WriteLine($"The {monster.name} collapses and the heroes celebrate their victory!");
+                Console.WriteLine($"{monster.definiteName.ToUpperFirst()} collapses and the heroes celebrate their victory!");
             }
             else
             {
-                Console.WriteLine($"The party has failed and the {monster.name} continues to attack unsuspecting adventurers.");
+                Console.WriteLine($"The party has failed and {monster.definiteName} continues to attack unsuspecting adventurers.");
             }
         }
     }
