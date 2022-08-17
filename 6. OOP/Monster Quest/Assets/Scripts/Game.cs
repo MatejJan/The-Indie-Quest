@@ -8,26 +8,27 @@ namespace MonsterQuest
 {
     public class Game : MonoBehaviour
     {
+        [SerializeField] private MonsterType[] monsterTypes;
+
         private void Start()
         {
             var battle = new Battle();
             var heroes = new Party
             {
-                new() { name = "Jazlyn", hitPoints = 12, attackDamage = "2d6", proficiencyBonus = 3, armorClass = 15 },
-                new() { name = "Theron", hitPoints = 12, attackDamage = "2d6", proficiencyBonus = 3, armorClass = 15 },
-                new() { name = "Dayana", hitPoints = 12, attackDamage = "2d6", proficiencyBonus = 3, armorClass = 15 },
-                new() { name = "Rolando", hitPoints = 12, attackDamage = "2d6", proficiencyBonus = 3, armorClass = 15 },
+                new() { name = "Jazlyn", hitPoints = 12, attackDamageRoll = "2d6", level = 3, armorClass = 15 },
+                new() { name = "Theron", hitPoints = 12, attackDamageRoll = "2d6", level = 3, armorClass = 15 },
+                new() { name = "Dayana", hitPoints = 12, attackDamageRoll = "2d6", level = 3, armorClass = 15 },
+                new() { name = "Rolando", hitPoints = 12, attackDamageRoll = "2d6", level = 3, armorClass = 15 },
             };
 
             Console.WriteLine($"A party of warriors ({heroes}) descends into the dungeon.");
 
-            var orc = new Creature { name = "orc", hitPoints = Dice.Roll("2d8+6"), attackDamage = "1d12+3", proficiencyBonus = 2, armorClass = 13 };
-            var snakes = new Creature { name = "swarm of poisonous snakes", hitPoints = Dice.Roll("8d8"), attackDamage = "1d6+7", proficiencyBonus = 2, armorClass = 14 };
-            var troll = new Creature { name = "troll", hitPoints = Dice.Roll("8d10+40"), attackDamage = "2d6+4", proficiencyBonus = 3, armorClass = 15 };
-
-            battle.Simulate(heroes, orc);
-            if (heroes.Count > 0) battle.Simulate(heroes, snakes);
-            if (heroes.Count > 0) battle.Simulate(heroes, troll);
+            foreach (MonsterType monsterType in monsterTypes)
+            {
+                var monster = new Monster(monsterType);
+                battle.Simulate(heroes, monster);
+                if (heroes.Count == 0) break;
+            }
 
             if (heroes.Count > 1)
             {

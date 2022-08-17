@@ -13,7 +13,7 @@ namespace MonsterQuest
             do
             {
                 // Heroes' turn.
-                foreach (Creature hero in heroes)
+                foreach (Character hero in heroes)
                 {
                     hero.Attack(monster);
 
@@ -24,7 +24,7 @@ namespace MonsterQuest
                 {
                     // Monster's turn.
                     int randomHeroIndex = Random.Range(0, heroes.Count);
-                    Creature attackedHero = heroes[randomHeroIndex];
+                    Character attackedHero = heroes[randomHeroIndex];
                     monster.Attack(attackedHero);
 
                     if (attackedHero.hitPoints == 0)

@@ -689,6 +689,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165cb5f2547341ceb6017d6689b4243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterTypes:
+  - {fileID: 11400000, guid: 7802cb04817534103a3ea74a64af0506, type: 2}
+  - {fileID: 11400000, guid: 69b24da752c2d4d7eb855e8f7132f87b, type: 2}
+  - {fileID: 11400000, guid: d51df4023ee6d449389cff76e10cbd7d, type: 2}
 --- !u!4 &1066135998
 Transform:
   m_ObjectHideFlags: 0
@@ -811,9 +815,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 150}
-  m_SizeDelta: {x: -266, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: -266, y: 500}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1150369929
 MonoBehaviour:
   m_ObjectHideFlags: 0

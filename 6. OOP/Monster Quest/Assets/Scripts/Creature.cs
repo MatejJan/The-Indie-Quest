@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +7,17 @@ namespace MonsterQuest
 {
     public class Creature
     {
-        public int hitPoints;
         public string name;
-        public string attackDamage;
-        public int proficiencyBonus;
         public int armorClass;
+        public int hitPoints;
+        public readonly AbilityScores abilityScores = new();
+        public string attackDamageRoll;
 
         public string definiteName => EnglishHelpers.GetDefiniteNounForm(name);
         public string indefiniteName => EnglishHelpers.GetIndefiniteNounForm(name);
+
+        public int proficiencyBonus => 2 + Math.Max(0, (proficiencyBonusBase - 1) / 4);
+        protected virtual int proficiencyBonusBase => throw new NotImplementedException();
 
         public void Attack(Creature target)
         {
@@ -21,12 +25,13 @@ namespace MonsterQuest
             int attackRoll = Dice.Roll("d20");
 
             // Add modifiers.
+            attackRoll += abilityScores.strength.modifier;
             attackRoll += proficiencyBonus;
 
             // If the attack roll is higher than the target's AC, the attack hits.
             if (attackRoll >= target.armorClass)
             {
-                int damage = Dice.Roll(attackDamage);
+                int damage = Dice.Roll(attackDamageRoll);
                 target.TakeDamage(this, damage);
             }
             else

@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace MonsterQuest
 {
-    public class Party : List<Creature>
+    public class Party : List<Character>
     {
         public override string ToString()
         {
-            return StringHelpers.JoinWithAnd(this.Select(creature => creature.name));
+            return StringHelpers.JoinWithAnd(this.Select(character => character.name));
         }
     }
 }
