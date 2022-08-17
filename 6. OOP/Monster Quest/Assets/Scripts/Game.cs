@@ -14,9 +14,13 @@ namespace MonsterQuest
 
             Console.WriteLine($"A party of warriors ({String.Join(", ", heroes)}) descends into the dungeon.");
 
-            battle.Simulate(heroes, "orc", Dice.Roll(2, 8, 6), 12);
-            if (heroes.Count > 0) battle.Simulate(heroes, "mage", Dice.Roll(9, 8), 20);
-            if (heroes.Count > 0) battle.Simulate(heroes, "troll", Dice.Roll(8, 10, 40), 18);
+            var orc = new Monster { name = "orc", hitPoints = Dice.Roll(2, 8, 6), attackSavingThrowDC = 12 };
+            var mage = new Monster { name = "mage", hitPoints = Dice.Roll(9, 8), attackSavingThrowDC = 20 };
+            var troll = new Monster { name = "troll", hitPoints = Dice.Roll(8, 10, 40), attackSavingThrowDC = 18 };
+
+            battle.Simulate(heroes, orc);
+            if (heroes.Count > 0) battle.Simulate(heroes, mage);
+            if (heroes.Count > 0) battle.Simulate(heroes, troll);
 
             if (heroes.Count > 1)
             {

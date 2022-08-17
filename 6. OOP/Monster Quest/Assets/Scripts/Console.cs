@@ -7,34 +7,34 @@ namespace MonsterQuest
 {
     public class Console : MonoBehaviour
     {
-        private static Console instance;
+        private static Console _instance;
         
-        private TextMeshProUGUI textMeshProUGui;
+        private TextMeshProUGUI _textMeshProUGui;
 
         public static void Write(string text)
         {
-            instance.WriteInternal(text);
+            _instance.WriteInternal(text);
         }
 
         public static void WriteLine(string text)
         {
-            instance.WriteLineInternal(text);
+            _instance.WriteLineInternal(text);
         }
         
         public void WriteInternal(string text)
         {
-            textMeshProUGui.text += text;
+            _textMeshProUGui.text += text;
         }
         
         public void WriteLineInternal(string text)
         {
-            textMeshProUGui.text += $"{text}\n";
+            _textMeshProUGui.text += $"{text}\n";
         }
         
         private void Awake()
         {
-            textMeshProUGui = GetComponent<TextMeshProUGUI>();
-            instance = this;
+            _textMeshProUGui = GetComponent<TextMeshProUGUI>();
+            _instance = this;
         }
     }
 }
