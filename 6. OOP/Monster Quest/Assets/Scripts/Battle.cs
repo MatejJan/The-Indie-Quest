@@ -13,14 +13,11 @@ namespace MonsterQuest
             do
             {
                 // Heroes' turn.
-                foreach (string hero in heroNames)
+                foreach (string heroName in heroNames)
                 {
-                    var greatswordHit = Dice.Roll(2, 6);
-                    monster.hitPoints -= greatswordHit;
-                    if (monster.hitPoints < 0) monster.hitPoints = 0;
-
-                    Console.WriteLine($"{hero} hits the {monster.name} for {greatswordHit} damage. The {monster.name} has {monster.hitPoints} HP left.");
-
+                    var greatswordDamage = Dice.Roll(2, 6);
+                    monster.TakeDamage(heroName, greatswordDamage);
+                    
                     if (monster.hitPoints == 0) break;
                 }
 
