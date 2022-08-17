@@ -6,17 +6,16 @@ namespace MonsterQuest
 {
     public class Battle
     {
-        public void Simulate(List<string> heroNames, Monster monster)
+        public void Simulate(List<Creature> heroes, Creature monster)
         {
             Console.WriteLine($"Watch out, {monster.name} with {monster.hitPoints} HP appears!");
 
             do
             {
                 // Heroes' turn.
-                foreach (string heroName in heroNames)
+                foreach (Creature hero in heroes)
                 {
-                    var greatswordDamage = Dice.Roll(2, 6);
-                    monster.TakeDamage(heroName, greatswordDamage);
+                    hero.Attack(monster);
                     
                     if (monster.hitPoints == 0) break;
                 }
@@ -24,26 +23,18 @@ namespace MonsterQuest
                 if (monster.hitPoints > 0)
                 {
                     // Monster's turn.
-                    int randomHeroIndex = Random.Range(0, heroNames.Count);
-                    string attackedHero = heroNames[randomHeroIndex];
-                    Console.WriteLine($"The {monster.name} attacks {attackedHero}!");
+                    int randomHeroIndex = Random.Range(0, heroes.Count);
+                    Creature attackedHero = heroes[randomHeroIndex];
+                    Console.WriteLine($"The {monster.name} attacks {attackedHero.name}!");
+                    monster.Attack(attackedHero);
 
-                    // Do the saving throw.
-                    int d20Roll = Dice.Roll(1, 20);
-                    int savingThrow = 5 + d20Roll;
-
-                    if (savingThrow >= monster.attackSavingThrowDC)
+                    if (attackedHero.hitPoints == 0)
                     {
-                        Console.WriteLine($"{attackedHero} rolls a {d20Roll} and is saved from the attack.");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{attackedHero} rolls a {d20Roll} and fails to be saved. {attackedHero} is killed.");
-                        heroNames.Remove(attackedHero);
+                        heroes.Remove(attackedHero);
                     }
                 }
 
-            } while (monster.hitPoints > 0 && heroNames.Count > 0);
+            } while (monster.hitPoints > 0 && heroes.Count > 0);
 
             if (monster.hitPoints == 0)
             {
