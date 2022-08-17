@@ -25,7 +25,6 @@ namespace MonsterQuest
                     // Monster's turn.
                     int randomHeroIndex = Random.Range(0, heroes.Count);
                     Creature attackedHero = heroes[randomHeroIndex];
-                    Console.WriteLine($"{monster.definiteName.ToUpperFirst()} attacks {attackedHero.definiteName}!");
                     monster.Attack(attackedHero);
 
                     if (attackedHero.hitPoints == 0)
