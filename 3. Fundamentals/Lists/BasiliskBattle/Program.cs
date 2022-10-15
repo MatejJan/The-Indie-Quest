@@ -7,10 +7,10 @@ namespace BasiliskBattle
     {
         static void Main(string[] args)
         {
-            var heroes = new List<string> { "Jazlyn", "Theron", "Dayana", "Rolando" };
+            var characterNames = new List<string> { "Jazlyn", "Theron", "Dayana", "Rolando" };
 
             Console.Clear();
-            Console.WriteLine($"A party of warriors ({String.Join(", ", heroes)}) descends into the dungeon.");
+            Console.WriteLine($"Fighters {String.Join(", ", characterNames)} descend into the dungeon.");
 
             var random = new Random();
             var basiliskHP = 16;
@@ -21,7 +21,7 @@ namespace BasiliskBattle
             do
             {
                 // Heroes' turn.
-                foreach (string hero in heroes)
+                foreach (string hero in characterNames)
                 {
                     var daggerHit = random.Next(1, 5);
                     basiliskHP -= daggerHit;
@@ -35,13 +35,13 @@ namespace BasiliskBattle
                 if (basiliskHP > 0)
                 {
                     // Basilisk's turn.
-                    int randomHeroIndex = random.Next(0, heroes.Count);
-                    string attackedHero = heroes[randomHeroIndex];
+                    int randomHeroIndex = random.Next(0, characterNames.Count);
+                    string attackedHero = characterNames[randomHeroIndex];
                     Console.WriteLine($"The basilisk uses petrifying gaze on {attackedHero}!");
 
                     // Do the saving throw.
                     int d20roll = random.Next(1, 21);
-                    int savingThrow = 5 + d20roll;
+                    int savingThrow = 3 + d20roll;
 
                     if (savingThrow >= 12)
                     {
@@ -50,11 +50,11 @@ namespace BasiliskBattle
                     else
                     {
                         Console.WriteLine($"{attackedHero} rolls a {d20roll} and fails to be saved. {attackedHero} is turned into stone.");
-                        heroes.Remove(attackedHero);
+                        characterNames.Remove(attackedHero);
                     }
                 }
 
-            } while (basiliskHP > 0 && heroes.Count > 0);
+            } while (basiliskHP > 0 && characterNames.Count > 0);
 
             if (basiliskHP == 0)
             {
