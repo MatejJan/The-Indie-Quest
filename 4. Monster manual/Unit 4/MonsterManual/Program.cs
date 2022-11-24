@@ -13,16 +13,11 @@ namespace MonsterManual
             public string Description;
             public string Alignment;
             public string HitPoints;
-            public ArmorInformation Armor = new ArmorInformation();
-        }
+			public int ArmorClass;
+			public ArmorTypeId ArmorTypeId;
+		}
 
-        class ArmorInformation
-        {
-            public int Class;
-            public ArmorType Type;
-        }
-
-        enum ArmorType
+        enum ArmorTypeId
         {
             Unspecified,
             Natural,
@@ -43,7 +38,7 @@ namespace MonsterManual
             Heavy
         }
 
-        class ArmorTypeInformation
+        class ArmorType
         {
             public string Name;
             public ArmorCategory Category;
@@ -94,7 +89,7 @@ namespace MonsterManual
 
                     if (match.Success)
                     {
-                        currentMonsterType.Armor.Class = int.Parse(match.Groups[1].Value);
+                        currentMonsterType.ArmorClass = int.Parse(match.Groups[1].Value);
 
                         if (match.Groups[2].Success)
                         {
@@ -102,44 +97,44 @@ namespace MonsterManual
 
                             if (armorTypeString.Contains("natural"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.Natural;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.Natural;
                             }
                             else if (armorTypeString.Contains("studded leather"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.StuddedLeather;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.StuddedLeather;
                             }
                             else if (armorTypeString.Contains("leather"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.Leather;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.Leather;
                             }
                             else if (armorTypeString.Contains("hide"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.Hide;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.Hide;
                             }
                             else if (armorTypeString.Contains("chain shirt"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.ChainShirt;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.ChainShirt;
                             }
                             else if (armorTypeString.Contains("chain mail"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.ChainMail;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.ChainMail;
                             }
                             else if (armorTypeString.Contains("scale mail"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.ScaleMail;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.ScaleMail;
                             }
                             else if (armorTypeString.Contains("plate"))
                             {
-                                currentMonsterType.Armor.Type = ArmorType.Plate;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.Plate;
                             }
                             else
                             {
-                                currentMonsterType.Armor.Type = ArmorType.Other;
+                                currentMonsterType.ArmorTypeId = ArmorTypeId.Other;
                             }
                         }
                         else
                         {
-                            currentMonsterType.Armor.Type = ArmorType.Unspecified;
+                            currentMonsterType.ArmorTypeId = ArmorTypeId.Unspecified;
                         }
                     }
                 }
@@ -152,7 +147,7 @@ namespace MonsterManual
             }
 
             // Read armor type data.
-            var armorTypeEntries = new Dictionary<ArmorType, ArmorTypeInformation>();
+            var armorTypeEntries = new Dictionary<ArmorTypeId, ArmorType>();
 
             lines = File.ReadAllLines("ArmorTypes.txt");
 
@@ -160,9 +155,9 @@ namespace MonsterManual
             {
                 string[] parts = lines[i].Split(",");
 
-                var armorType = (ArmorType)Enum.Parse(typeof(ArmorType), parts[0]);
+                var armorType = (ArmorTypeId)Enum.Parse(typeof(ArmorTypeId), parts[0]);
 
-                var armorTypeInformation = new ArmorTypeInformation();
+                var armorTypeInformation = new ArmorType();
                 armorTypeInformation.Name = parts[1];
                 armorTypeInformation.Category = (ArmorCategory)Enum.Parse(typeof(ArmorCategory), parts[2]);
                 armorTypeInformation.Weight = int.Parse(parts[3]);
@@ -230,7 +225,7 @@ namespace MonsterManual
             {
                 Console.WriteLine("Which armor type do you want to display?");
 
-                string[] armorTypeNames = Enum.GetNames(typeof(ArmorType));
+                string[] armorTypeNames = Enum.GetNames(typeof(ArmorTypeId));
 
                 for (int i = 0; i < armorTypeNames.Length; i++)
                 {
@@ -257,11 +252,11 @@ namespace MonsterManual
 
                 } while (selectedIndex < 0);
 
-                ArmorType selectedArmorType = (ArmorType)selectedIndex;
+                ArmorTypeId selectedArmorType = (ArmorTypeId)selectedIndex;
 
                 foreach (MonsterType monsterType in monsterTypes)
                 {
-                    if (monsterType.Armor.Type == selectedArmorType)
+                    if (monsterType.ArmorTypeId == selectedArmorType)
                     {
                         results.Add(monsterType);
                     }
@@ -312,13 +307,13 @@ namespace MonsterManual
             Console.WriteLine($"Description: {selectedMonsterType.Description}");
             Console.WriteLine($"Alignment: {selectedMonsterType.Alignment}");
             Console.WriteLine($"Hit points: {selectedMonsterType.HitPoints}");
-            Console.WriteLine($"Armor class: {selectedMonsterType.Armor.Class}");
+            Console.WriteLine($"Armor class: {selectedMonsterType.ArmorClass}");
 
-            if (selectedMonsterType.Armor.Type != ArmorType.Unspecified)
+            if (selectedMonsterType.ArmorTypeId != ArmorTypeId.Unspecified)
             {
-                if (armorTypeEntries.ContainsKey(selectedMonsterType.Armor.Type))
+                if (armorTypeEntries.ContainsKey(selectedMonsterType.ArmorTypeId))
                 {
-                    ArmorTypeInformation armorTypeInformation = armorTypeEntries[selectedMonsterType.Armor.Type];
+                    ArmorType armorTypeInformation = armorTypeEntries[selectedMonsterType.ArmorTypeId];
 
                     Console.WriteLine($"Armor type: {armorTypeInformation.Name}");
                     Console.WriteLine($"Armor category: {armorTypeInformation.Category}");
@@ -326,7 +321,7 @@ namespace MonsterManual
                 }
                 else
                 {
-                    Console.WriteLine($"Armor type: {selectedMonsterType.Armor.Type}");
+                    Console.WriteLine($"Armor type: {selectedMonsterType.ArmorTypeId}");
                 }
             }
         }
