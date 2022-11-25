@@ -13,9 +13,9 @@ namespace MonsterManual
             public string Description;
             public string Alignment;
             public string HitPoints;
-			public int ArmorClass;
-			public ArmorTypeId ArmorTypeId;
-		}
+            public int ArmorClass;
+            public ArmorTypeId ArmorTypeId;
+        }
 
         enum ArmorTypeId
         {
