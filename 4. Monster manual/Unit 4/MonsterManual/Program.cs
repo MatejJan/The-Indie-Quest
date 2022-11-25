@@ -12,7 +12,7 @@ namespace MonsterManual
             public string Name;
             public string Description;
             public string Alignment;
-            public string HitPoints;
+            public string HitPointsRoll;
             public int ArmorClass;
             public ArmorTypeId ArmorTypeId;
         }
@@ -79,7 +79,7 @@ namespace MonsterManual
 
                     if (match.Success)
                     {
-                        currentMonsterType.HitPoints = match.Groups[1].Value;
+                        currentMonsterType.HitPointsRoll = match.Groups[1].Value;
                     }
                 }
 
@@ -147,7 +147,7 @@ namespace MonsterManual
             }
 
             // Read armor type data.
-            var armorTypeEntries = new Dictionary<ArmorTypeId, ArmorType>();
+            var armorTypes = new Dictionary<ArmorTypeId, ArmorType>();
 
             lines = File.ReadAllLines("ArmorTypes.txt");
 
@@ -155,14 +155,14 @@ namespace MonsterManual
             {
                 string[] parts = lines[i].Split(",");
 
-                var armorType = (ArmorTypeId)Enum.Parse(typeof(ArmorTypeId), parts[0]);
+                var armorTypeId = (ArmorTypeId)Enum.Parse(typeof(ArmorTypeId), parts[0]);
 
-                var armorTypeInformation = new ArmorType();
-                armorTypeInformation.Name = parts[1];
-                armorTypeInformation.Category = (ArmorCategory)Enum.Parse(typeof(ArmorCategory), parts[2]);
-                armorTypeInformation.Weight = int.Parse(parts[3]);
+                var armorType = new ArmorType();
+                armorType.Name = parts[1];
+                armorType.Category = (ArmorCategory)Enum.Parse(typeof(ArmorCategory), parts[2]);
+                armorType.Weight = int.Parse(parts[3]);
 
-                armorTypeEntries[armorType] = armorTypeInformation;
+                armorTypes[armorTypeId] = armorType;
             }
 
             // Display user interface.
@@ -306,18 +306,18 @@ namespace MonsterManual
             Console.WriteLine($"Name: {selectedMonsterType.Name}");
             Console.WriteLine($"Description: {selectedMonsterType.Description}");
             Console.WriteLine($"Alignment: {selectedMonsterType.Alignment}");
-            Console.WriteLine($"Hit points: {selectedMonsterType.HitPoints}");
+            Console.WriteLine($"Hit points roll: {selectedMonsterType.HitPointsRoll}");
             Console.WriteLine($"Armor class: {selectedMonsterType.ArmorClass}");
 
             if (selectedMonsterType.ArmorTypeId != ArmorTypeId.Unspecified)
             {
-                if (armorTypeEntries.ContainsKey(selectedMonsterType.ArmorTypeId))
+                if (armorTypes.ContainsKey(selectedMonsterType.ArmorTypeId))
                 {
-                    ArmorType armorTypeInformation = armorTypeEntries[selectedMonsterType.ArmorTypeId];
+                    ArmorType armorType = armorTypes[selectedMonsterType.ArmorTypeId];
 
-                    Console.WriteLine($"Armor type: {armorTypeInformation.Name}");
-                    Console.WriteLine($"Armor category: {armorTypeInformation.Category}");
-                    Console.WriteLine($"Armor weight: {armorTypeInformation.Weight} lb.");
+                    Console.WriteLine($"Armor type: {armorType.Name}");
+                    Console.WriteLine($"Armor category: {armorType.Category}");
+                    Console.WriteLine($"Armor weight: {armorType.Weight} lb.");
                 }
                 else
                 {
